@@ -55,7 +55,8 @@ This will:
 - Start the `turtlesim_node`.
 - Spawn the specified number of turtles (default is 2).
 - Initiate the dynamic follower node.
-- Open a terminal for teleoperation.
+- Teleoperate the leader in the command window opened.
+- Switch the leader in another terminal.
 
 ### Control the Leader Turtle
 
