@@ -109,4 +109,3 @@ Email: [zafari.h.yashar@gmail.com](mailto:zafari.h.yashar@gmail.com)
 ---
 
 *For more information on ROS 2 and `turtlesim`, refer to the [official ROS 2 tutorials](https://docs.ros.org/en/foxy/Tutorials/Beginner-CLI-Tools/Introducing-Turtlesim/Introducing-Turtlesim.html).*
-```
