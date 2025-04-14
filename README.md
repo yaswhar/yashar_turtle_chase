@@ -1,4 +1,4 @@
-Sure! Here's the complete `README.md` in Markdown code format:
+This package and README file is written for the Robotics-Lab HW2.
 
 # 🐢 yashar_turtle_chase
 
