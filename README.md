@@ -2,7 +2,7 @@ This package and README file is written for the Robotics-Lab HW2. Yashar Zafari 
 
 # 🐢 yashar_turtle_chase
 
-A dynamic leader-follower demo using ROS 2's `turtlesim`, where multiple turtles can follow a designated leader with real-time leader switching capability.
+A dynamic leader-follower demo using ROS2's `turtlesim`, where multiple turtles can follow a designated leader with real-time leader switching capability.
 
 ## 📦 Overview
 
@@ -93,7 +93,7 @@ The current leader is stored as a variable within the node. It can be updated at
 
 ## 📹 Demonstration
 
-![Demo GIF](path_to_demo.gif)
+https://github.com/user-attachments/assets/0013b428-5731-40c6-85f9-7b0369217965
 
 *In the demo, observe how the follower turtle tracks the leader and how switching the leader affects the behavior.*
 
