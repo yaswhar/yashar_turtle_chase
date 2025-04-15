@@ -1,4 +1,4 @@
-This package and README file is written for the Robotics-Lab HW2.
+This package and README file is written for the Robotics-Lab HW2. Yashar Zafari - Student Number: 99106209, Sharif University of Technology. [email](mailto:zafari.h.yashar@gmail.com)
 
 # 🐢 yashar_turtle_chase
 
@@ -100,12 +100,6 @@ The current leader is stored as a variable within the node. It can be updated at
 ## 📝 License
 
 This project is licensed under the Apache License 2.0.
-
-## 🙋‍♂️ Author
-
-**Yashar Zafari**
-
-Email: [zafari.h.yashar@gmail.com](mailto:zafari.h.yashar@gmail.com)
 
 ---
 
