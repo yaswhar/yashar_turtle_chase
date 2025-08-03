@@ -1,12 +1,30 @@
 #!/usr/bin/env python3
-import rclpy
-from rclpy.node import Node
-from turtlesim.msg import Pose
-from geometry_msgs.msg import Twist
-from std_msgs.msg import String
+
+# Copyright 2025 Yashar Zafari
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import math
 
+import rclpy
+from geometry_msgs.msg import Twist
+from rclpy.node import Node
+from std_msgs.msg import String
+from turtlesim.msg import Pose
+
+
 class DynamicFollower(Node):
+
     def __init__(self):
         super().__init__('dynamic_follower')
         # Parameters: number of turtles and initial leader (default 'turtle1')
@@ -28,7 +46,8 @@ class DynamicFollower(Node):
             10
         )
 
-        # For each turtle (turtle1 through turtleN), subscribe to pose and create a publisher for cmd_vel
+        # For each turtle (turtle1 through turtleN), subscribe to pose
+        # and create a publisher
         for i in range(1, self.num_turtles + 1):
             turtle_name = f'turtle{i}'
             self.create_subscription(
@@ -47,7 +66,7 @@ class DynamicFollower(Node):
         self.create_subscription(Twist, '/leader/cmd_vel', self.teleop_cmd_cb, 10)
         # Timer for control loop: have followers track the leader
         self.timer = self.create_timer(0.1, self.control_loop)
-        self.get_logger().info(f"Initial leader set to: {self.leader}")
+        self.get_logger().info(f'Initial leader set to: {self.leader}')
 
     def _create_pose_cb(self, turtle_name):
         # Create a callback that captures the turtle name.
@@ -60,9 +79,10 @@ class DynamicFollower(Node):
         leader_name = msg.data
         if leader_name in self.poses:
             self.leader = leader_name
-            self.get_logger().info(f"Leader switched to: {self.leader}")
+            self.get_logger().info(f'Leader switched to: {self.leader}')
         else:
-            self.get_logger().error(f"Leader {leader_name} does not exist or is not available yet!")
+            self.get_logger().error(
+                f'Leader {leader_name} does not exist or is not available yet!')
 
     def teleop_cmd_cb(self, msg):
         # Relay teleop commands to the current leader.
@@ -78,9 +98,8 @@ class DynamicFollower(Node):
         # Check if leader is moving
         velocity_threshold = 0.001
         leader_moving = (
-            abs(leader_pose.linear_velocity) > velocity_threshold or 
-            abs(leader_pose.angular_velocity) > velocity_threshold
-        )
+            abs(leader_pose.linear_velocity) > velocity_threshold or
+            abs(leader_pose.angular_velocity) > velocity_threshold)
 
         # For every turtle (except the leader), compute velocity commands
         for turtle_name, pose in self.poses.items():
@@ -110,12 +129,14 @@ class DynamicFollower(Node):
 
             self.cmd_pubs[turtle_name].publish(cmd)
 
+
 def main(args=None):
     rclpy.init(args=args)
     node = DynamicFollower()
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
+
 
 if __name__ == '__main__':
     main()

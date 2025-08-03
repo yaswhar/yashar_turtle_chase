@@ -1,11 +1,29 @@
 #!/usr/bin/env python3
+
+# Copyright 2025 Yashar Zafari
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import math
+import random
+
 import rclpy
 from rclpy.node import Node
 from turtlesim.srv import Spawn
-import random
-import math
+
 
 class TurtleSpawner(Node):
+
     def __init__(self):
         super().__init__('turtle_spawner')
         # Parameter for the total number of turtles (default is 2)
@@ -21,14 +39,17 @@ class TurtleSpawner(Node):
         self.existing_positions = [(5.544444, 5.544444)]
         self.spawn_turtles()
 
-    def generate_random_position(self, min_distance=1.0, x_range=(1.0, 10.0), y_range=(1.0, 10.0), max_attempts=50):
+    def generate_random_position(self, min_distance=1.0, x_range=(1.0, 10.0),
+                                 y_range=(1.0, 10.0), max_attempts=50):
         """Generate a random (x, y) position not too close to any existing positions."""
         for _ in range(max_attempts):
             x = random.uniform(*x_range)
             y = random.uniform(*y_range)
-            if all(math.hypot(x - ex, y - ey) >= min_distance for ex, ey in self.existing_positions):
+            is_clear = all(
+                math.hypot(x - ex, y - ey) >= min_distance for ex, ey in self.existing_positions)
+            if is_clear:
                 return x, y
-        raise RuntimeError("Could not generate a non-colliding position after many attempts")
+        raise RuntimeError('Could not generate a non-colliding position after many attempts')
 
     def spawn_turtles(self):
         """Spawn turtles dynamically."""
@@ -43,7 +64,8 @@ class TurtleSpawner(Node):
             req.name = f'turtle{i}'
             self.existing_positions.append((x, y))
             future = self.cli.call_async(req)
-            future.add_done_callback(lambda fut, name=req.name: self.spawn_callback(fut, name))
+            future.add_done_callback(
+                lambda fut, name=req.name: self.spawn_callback(fut, name))
 
     def spawn_callback(self, future, turtle_name):
         try:
@@ -52,6 +74,7 @@ class TurtleSpawner(Node):
         except Exception as e:
             self.get_logger().error(f'Failed to spawn {turtle_name}: {e}')
 
+
 def main(args=None):
     rclpy.init(args=args)
     node = TurtleSpawner()
@@ -59,6 +82,7 @@ def main(args=None):
     rclpy.spin_once(node, timeout_sec=0.5)
     node.destroy_node()
     rclpy.shutdown()
+
 
 if __name__ == '__main__':
     main()
